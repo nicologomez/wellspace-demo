@@ -1,0 +1,105 @@
+<header class="site-header">
+  <div class="wellspace-brand"><span class="brand-mark">✳</span> wellspace</div>
+  <div class="header-right">
+    <span>Client · {{ account()?.displayName }}</span>
+    <button class="btn-outline" (click)="logout()">Sign out</button>
+  </div>
+</header>
+<main class="client-page">
+  @if (bookings() === null) {
+    <section class="hero"><p>Loading your sessions...</p></section>
+  } @else if (upcoming().length > 0) {
+    <section class="hero booked-hero">
+      <p class="eyebrow">UPCOMING SESSION</p>
+      <h1>Therapy with Ava Smith</h1>
+      <p>{{ upcoming()[0].date }} · {{ upcoming()[0].time }} · {{ upcoming()[0].format }}</p>
+      <a class="btn-outline" [routerLink]="['/client/session', upcoming()[0].id]">View</a>
+      <a class="btn-primary" [routerLink]="['/client/session', upcoming()[0].id]">Join Session</a>
+    </section>
+  } @else {
+    <section class="hero">
+      <p class="eyebrow">READY TO BEGIN</p>
+      <h1>Find a therapist that fits</h1>
+      <p>Browse therapists matched to your preferences.</p>
+    </section>
+  }
+
+  @if (upcoming().length > 0) {
+    <section>
+      <h2>Upcoming sessions</h2>
+      @for (session of upcoming(); track session.id) {
+        <app-session-row [appointment]="session" />
+      }
+    </section>
+  }
+
+  @if (cancelled().length) {
+    <section>
+      <h2>Cancelled sessions</h2>
+      @for (session of cancelled(); track session.id) {
+        <p>
+          {{ session.date }} · {{ session.time }}
+          <a [routerLink]="['/client/session', session.id]">View / Delete</a>
+        </p>
+      }
+    </section>
+  }
+
+  <section>
+    <h2>Browse Therapists</h2>
+    <div class="directory-tabs">
+      <button [class.active]="tab() === 'all'" (click)="tabControl.setValue('all')">
+        All Therapists
+      </button>
+      <button [class.active]="tab() === 'saved'" (click)="tabControl.setValue('saved')">
+        Saved Therapists
+      </button>
+    </div>
+    <div class="directory-toolbar">
+      <label
+        >Focus Areas
+        <select [formControl]="focusControl">
+          <option value="">All focus areas</option>
+          @for (area of focusAreas; track area) {
+            <option [value]="area">{{ area }}</option>
+          }
+        </select>
+      </label>
+      <label
+        >Format
+        <select [formControl]="formatControl">
+          <option value="">All formats</option>
+          <option>Video</option>
+          <option>Call</option>
+          <option>In-Person</option>
+        </select>
+      </label>
+      <label
+        >Sort
+        <select [formControl]="sortControl">
+          <option value="name">Name</option>
+          <option value="focus">Focus area</option>
+          <option value="format">Session format</option>
+        </select>
+      </label>
+      <label>Search <input [formControl]="searchControl" placeholder="Search therapists" /></label>
+    </div>
+
+    @if (savedIds() === null) {
+      <p>Loading saved therapists...</p>
+    } @else {
+      <div class="directory-grid">
+        @for (therapist of therapists(); track therapist.id) {
+          <app-therapist-card
+            [therapist]="therapist"
+            [saved]="(savedIds() ?? []).includes(therapist.id)"
+            (toggleSaved)="toggleSaved($event)"
+          />
+        } @empty {
+          <p>No therapists match the selected filters.</p>
+        }
+      </div>
+    }
+  </section>
+</main>
+<router-outlet />

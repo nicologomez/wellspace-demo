@@ -1,0 +1,25 @@
+<article class="therapist-card">
+  <div class="therapist-person">
+    <div class="profile-circle">{{ therapist().name[0] }}</div>
+    <div>
+      <h3>{{ therapist().name }}</h3>
+      <p>{{ therapist().credential }}</p>
+    </div>
+  </div>
+  <div class="chips">
+    @for (focus of therapist().focusAreas; track focus) {
+      <span class="chip">{{ focus }}</span>
+    }
+  </div>
+  <div class="chips">
+    @for (format of therapist().formats; track format) {
+      <span class="chip format">{{ format }}</span>
+    }
+  </div>
+  <footer class="card-footer">
+    <button class="btn-outline" (click)="toggleSaved.emit(therapist().id)">
+      {{ saved() ? 'Saved' : 'Save' }}
+    </button>
+    <a class="btn-primary" [routerLink]="['/client/book', therapist().id]">Book a Session</a>
+  </footer>
+</article>

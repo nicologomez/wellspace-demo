@@ -1,1 +1,98 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  font-family: Arial, sans-serif;
+  color: #102629;
+  background: #f8fbfb;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 3%;
+  background: #fff;
+  border-bottom: 1px solid #e1e9ec;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.wellspace-brand {
+  font-size: 25px;
+  font-weight: 750;
+  letter-spacing: -0.8px;
+}
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  color: white;
+  background: #e34c69;
+  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+}
+.client-page {
+  max-width: 1190px;
+  margin: auto;
+  padding: 24px 30px;
+}
+.hero {
+  padding: 36px;
+  background: linear-gradient(115deg, #eefbfa, #f5f4ff);
+  border-radius: 22px;
+  margin-bottom: 34px;
+}
+.hero h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 400;
+}
+.eyebrow {
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-weight: bold;
+}
+.btn-primary {
+  background: #008f91;
+  color: white;
+  border: 0;
+  border-radius: 22px;
+  padding: 10px 17px;
+}
+.btn-outline {
+  background: white;
+  color: #00696d;
+  border: 1px solid #009fa0;
+  border-radius: 22px;
+  padding: 9px 16px;
+}
+.error {
+  color: #ac2636;
+}
+
+@media (max-width: 560px) {
+  .site-header {
+    padding: 12px;
+  }
+  .header-right {
+    gap: 7px;
+  }
+}

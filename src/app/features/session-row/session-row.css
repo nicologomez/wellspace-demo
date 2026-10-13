@@ -1,0 +1,33 @@
+.session-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px;
+  border: 1px solid #dce6e8;
+  border-radius: 11px;
+  background: white;
+  margin-bottom: 10px;
+}
+.session-row p {
+  color: #617074;
+  margin: 6px 0 0;
+}
+.session-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.session-actions a {
+  text-decoration: none;
+}
+
+@media (max-width: 560px) {
+  .session-row {
+    display: block;
+  }
+  .session-actions {
+    margin-top: 14px;
+  }
+}

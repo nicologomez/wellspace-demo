@@ -1,0 +1,59 @@
+.therapist-card {
+  background: white;
+  border: 1px solid #dce5e8;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 17px;
+}
+.therapist-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 78px;
+}
+.profile-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f1dfe7;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+h3 {
+  margin: 0;
+  font-size: 18px;
+}
+p {
+  color: #576467;
+  font-size: 13px;
+  margin: 3px 0;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 0;
+}
+.chip {
+  border: 1px solid #dae3e5;
+  border-radius: 15px;
+  font-size: 12px;
+  padding: 2px 7px;
+}
+.format {
+  color: #078f92;
+  background: #eefafa;
+}
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+}
+a {
+  text-decoration: none;
+}
+button {
+  font: inherit;
+}

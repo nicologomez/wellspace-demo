@@ -1,0 +1,88 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: #22393a88;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+}
+.modal-panel {
+  width: min(1120px, 100%);
+  max-height: 95vh;
+  overflow: auto;
+  background: white;
+  border-radius: 13px;
+  border: 1px solid #dce5e8;
+}
+.modal-header,
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid #dae4e6;
+}
+.modal-footer {
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #dae4e6;
+  border-bottom: 0;
+}
+.modal-right {
+  padding: 24px;
+  min-width: 0;
+}
+.modal-right h3 {
+  margin: 20px 0 10px;
+}
+.choice-grid,
+.time-grid,
+.date-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.choice-grid label,
+.time-grid label,
+.date-button {
+  background: white;
+  border: 1px solid #d6e1e3;
+  border-radius: 10px;
+  padding: 12px;
+}
+.date-button.selected {
+  background: #dff2f3;
+  border-color: #008f91;
+}
+textarea,
+select {
+  width: 100%;
+  border: 1px solid #d6e1e3;
+  border-radius: 9px;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 800px) {
+  .modal-split {
+    grid-template-columns: 1fr;
+  }
+  .modal-left {
+    border-right: 0;
+    border-bottom: 1px solid #dae4e6;
+  }
+}
+
+@media (max-width: 560px) {
+  .modal-left,
+  .modal-right {
+    padding: 16px;
+  }
+}

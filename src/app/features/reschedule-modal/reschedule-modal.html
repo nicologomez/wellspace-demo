@@ -1,0 +1,81 @@
+<div class="modal-backdrop">
+  <section class="modal-panel" role="dialog" aria-modal="true">
+    <header class="modal-header">
+      <strong>Reschedule with Ava Smith</strong>
+      <a routerLink="/client" class="btn-outline">Close</a>
+    </header>
+
+    @if (appointment(); as old) {
+      <div class="modal-right">
+        <p>Current: {{ old.date }} · {{ old.time }} · {{ old.format }}</p>
+
+        <h3>Choose a new date</h3>
+        <div class="date-grid">
+          @for (day of dates; track day) {
+            <button
+              class="date-button"
+              type="button"
+              [class.selected]="date() === day"
+              (click)="chooseDate(day)"
+            >
+              {{ day }}
+            </button>
+          }
+        </div>
+
+        <h3>Available times</h3>
+        <div class="time-grid">
+          @for (time of times(); track time) {
+            <label
+              ><input type="radio" [formControl]="timeControl" [value]="time" /> {{ time }}</label
+            >
+          } @empty {
+            <p>Choose a day with open times.</p>
+          }
+        </div>
+
+        <label
+          >Session format
+          <select [formControl]="formatControl">
+            <option value="">Keep current ({{ old.format }})</option>
+            <option>Video</option>
+            <option>Call</option>
+            <option>In-Person</option>
+          </select>
+        </label>
+
+        <label
+          >Focus area
+          <select [formControl]="focusControl">
+            <option value="">Keep current ({{ old.focusArea }})</option>
+            @for (area of focusAreas; track area) {
+              <option [value]="area">{{ area }}</option>
+            }
+          </select>
+        </label>
+
+        <label
+          >New context (optional)
+          <textarea [formControl]="contextControl" rows="3"></textarea>
+        </label>
+
+        @if (error()) {
+          <p role="alert" class="error">{{ error() }}</p>
+        }
+      </div>
+
+      <footer class="modal-footer">
+        <a class="btn-outline" routerLink="/client">Back</a>
+        <button
+          class="btn-primary"
+          (click)="save()"
+          [disabled]="dateControl.invalid || timeControl.invalid"
+        >
+          Save Changes
+        </button>
+      </footer>
+    } @else {
+      <p style="padding: 24px">Loading session...</p>
+    }
+  </section>
+</div>

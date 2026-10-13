@@ -1,0 +1,13 @@
+<main class="login-page">
+  <form class="login-card" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="wellspace-brand"><span class="brand-mark">✳</span> wellspace</div>
+    <h1>Welcome to Wellspace</h1>
+    <p>Use one of the two demo accounts to sign in.</p>
+    <label for="username">Username</label>
+    <input id="username" formControlName="username" placeholder="Nichols or Ava" />
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" />
+    @if (error()) { <p role="alert" class="error">{{ error() }}</p> }
+    <button class="btn-primary" type="submit" [disabled]="form.invalid">Sign in</button>
+  </form>
+</main>

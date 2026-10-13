@@ -1,0 +1,14 @@
+<article class="session-row">
+  <div>
+    <strong>Therapy with Ava Smith</strong>
+    <p>
+      {{ appointment().date }} · {{ appointment().time }} · {{ appointment().format }} ·
+      {{ appointment().focusArea }}
+    </p>
+  </div>
+  <div class="session-actions">
+    <a class="btn-outline" [routerLink]="['/client/session', appointment().id]">View</a>
+    <a class="btn-primary" [routerLink]="['/client/session', appointment().id]">Join Session</a>
+    <a [routerLink]="['/client/reschedule', appointment().id]">Reschedule</a>
+  </div>
+</article>

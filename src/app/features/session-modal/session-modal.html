@@ -1,0 +1,69 @@
+<div class="modal-backdrop">
+  <section class="session-panel" role="dialog" aria-modal="true" aria-label="Session details">
+    <header class="modal-header">
+      <strong>Session with Ava</strong>
+      <a routerLink="/client" class="btn-outline">Close</a>
+    </header>
+
+    @if (appointment(); as session) {
+      <div class="modal-split">
+        <section class="modal-left">
+          <p class="eyebrow">OVERVIEW</p>
+          <h1>Ava Smith</h1>
+          <p>Licensed Psychologist, PhD</p>
+          <div class="overview-box">
+            <p>Session ID: {{ session.id }}</p>
+            <p>Scheduled: {{ session.date }} · {{ session.time }}</p>
+            <p>Format: {{ session.format }}</p>
+            <p>Focus Area: {{ session.focusArea }}</p>
+            <p>
+              Status: <strong>{{ session.status }}</strong>
+            </p>
+          </div>
+          <h3>Session context</h3>
+          <p>{{ session.context || 'No context provided.' }}</p>
+        </section>
+
+        <section class="modal-right">
+          <div class="notes-toolbar">
+            <div>
+              <h2>Shared Notes</h2>
+              <p>Visible to Nichols Gray and Ava Smith</p>
+            </div>
+            <a class="btn-outline" [routerLink]="['/client/session', id, 'note', 'new']"
+              >+ Create Note</a
+            >
+          </div>
+
+          @if (sharedNotes() === null) {
+            <p>Loading shared notes...</p>
+          } @else {
+            @for (note of sharedNotes() ?? []; track note.id) {
+              <app-note-card [note]="note" [viewerUid]="currentUid" (remove)="removeNote($event)" />
+            } @empty {
+              <p>No shared notes for this session yet.</p>
+            }
+          }
+        </section>
+      </div>
+
+      @if (message()) {
+        <p class="error" role="alert" style="padding: 0 24px">{{ message() }}</p>
+      }
+
+      <footer class="modal-footer">
+        <a routerLink="/client" class="btn-outline">Close</a>
+        @if (session.status === 'booked') {
+          <a class="btn-primary" [routerLink]="['/client/call', id]">Join Session</a>
+          <button class="btn-outline" (click)="cancelSession()">Cancel Session</button>
+        } @else {
+          <button class="btn-outline" (click)="deleteSession()">Delete Appointment</button>
+        }
+      </footer>
+    } @else {
+      <p style="padding: 24px">Loading session details...</p>
+    }
+
+    <router-outlet />
+  </section>
+</div>

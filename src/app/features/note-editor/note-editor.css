@@ -1,0 +1,32 @@
+.editor-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: #21353788;
+}
+.note-form {
+  display: grid;
+  gap: 14px;
+  width: min(560px, 100%);
+  background: white;
+  border-radius: 13px;
+  padding: 24px;
+}
+.note-form label {
+  display: grid;
+  gap: 8px;
+}
+.note-form input,
+.note-form textarea {
+  border: 1px solid #d4e1e3;
+  border-radius: 10px;
+  padding: 12px;
+}
+.note-form footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

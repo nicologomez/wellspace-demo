@@ -1,0 +1,31 @@
+.note-card {
+  background: #f7fafa;
+  border: 1px solid #dce6e8;
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 14px;
+}
+.note-card header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.note-card h3 {
+  font-family: Georgia, serif;
+  margin: 0 auto 0 0;
+}
+.note-card a,
+.note-card button {
+  color: #006d71;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.note-body {
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+.note-card footer {
+  color: #657477;
+  font-size: 12px;
+}
