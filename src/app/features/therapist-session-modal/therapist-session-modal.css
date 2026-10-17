@@ -1,0 +1,85 @@
+.therapist-session-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  background: #172a3080;
+}
+.therapist-session-panel {
+  position: relative;
+  width: min(1160px, 100%);
+  max-height: 94vh;
+  overflow: auto;
+  background: white;
+  border-radius: 13px;
+}
+.modal-header,
+.modal-footer {
+  padding: 19px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #dce6e8;
+}
+.modal-footer {
+  border-top: 1px solid #dce6e8;
+  border-bottom: 0;
+  justify-content: end;
+}
+.modal-footer a {
+  text-decoration: none;
+}
+.session-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 490px;
+}
+.session-overview,
+.session-notes {
+  padding: 25px;
+}
+.session-overview {
+  border-right: 1px solid #dce6e8;
+}
+.session-overview h1 {
+  font:
+    400 37px Georgia,
+    serif;
+  margin: 12px 0;
+}
+.overview-box {
+  background: #f3f7f7;
+  padding: 14px;
+  border: 1px solid #dce6e8;
+  border-radius: 12px;
+  margin: 18px 0;
+}
+.notes-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.notes-heading a {
+  text-decoration: none;
+}
+.loading {
+  padding: 24px;
+}
+@media (max-width: 780px) {
+  .session-columns {
+    grid-template-columns: 1fr;
+  }
+  .session-overview {
+    border-right: 0;
+    border-bottom: 1px solid #dce6e8;
+  }
+  .session-overview,
+  .session-notes {
+    padding: 17px;
+  }
+}

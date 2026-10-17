@@ -1,0 +1,19 @@
+.day-button {
+  width: 100%;
+  display: grid;
+  text-align: left;
+  gap: 5px;
+  background: white;
+  border: 1px solid #dbe5e7;
+  border-radius: 12px;
+  padding: 13px;
+  margin: 9px 0;
+  cursor: pointer;
+}
+.day-button.active {
+  border-color: #0bafb6;
+  background: #f0f8f9;
+}
+.day-button small {
+  color: #5a6c70;
+}

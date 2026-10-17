@@ -4,6 +4,11 @@
     <div>
       <h3>{{ therapist().name }}</h3>
       <p>{{ therapist().credential }}</p>
+      @if (therapist().title) {
+        <p class="profile-tagline">{{ therapist().title }}</p>
+      } @else {
+        <p class="profile-tagline">{{ therapist().about }}</p>
+      }
     </div>
   </div>
   <div class="chips">

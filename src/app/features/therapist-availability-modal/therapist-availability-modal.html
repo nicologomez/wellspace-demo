@@ -1,0 +1,68 @@
+<div class="therapist-overlay">
+  <section
+    class="availability-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Update availability"
+  >
+    <header class="modal-header">
+      <h2>Update Availability</h2>
+      <a routerLink="/therapist" class="btn-outline">Close</a>
+    </header>
+    @if (week() === null) {
+      <p class="loading">Loading weekly schedule...</p>
+    } @else if (week(); as schedule) {
+      <div class="availability-columns">
+        <aside class="availability-sidebar">
+          <div class="week-total">
+            <strong>This Week Total</strong>
+            <p>{{ hours() }} hrs · {{ totalSlots() }} slots</p>
+          </div>
+          <h3>Days</h3>
+          @for (name of days; track name) {
+            <app-therapist-day-card
+              [name]="name"
+              [schedule]="schedule.days[name]"
+              [active]="day() === name"
+              (choose)="chooseDay($event)"
+            />
+          }
+        </aside>
+        <section class="availability-editor">
+          <h2>{{ day() }}</h2>
+          <form class="day-form" [formGroup]="form" (ngSubmit)="save()">
+            <label class="toggle-day">
+              <input type="checkbox" formControlName="enabled" /> Available this day
+            </label>
+            <h3>Work Hours</h3>
+            <div class="field-pair">
+              <label>Start Time <input type="time" formControlName="start" /></label>
+              <label>End Time <input type="time" formControlName="end" /></label>
+            </div>
+            <h3>Break Time</h3>
+            <div class="field-pair">
+              <label>Start Time <input type="time" formControlName="breakStart" /></label>
+              <label>End Time <input type="time" formControlName="breakEnd" /></label>
+            </div>
+            <h3>Slots This Day</h3>
+            <label>
+              Maximum slots <input type="number" min="0" max="24" formControlName="slots" />
+            </label>
+            <p class="muted">Sessions last 45 minutes; start times are hourly.</p>
+            @if (notice()) {
+              <p role="status" class="muted">{{ notice() }}</p>
+            }
+            <footer>
+              <button class="btn-outline" type="button" (click)="remove()">Remove Day</button>
+              <button class="btn-primary" type="submit" [disabled]="form.invalid">
+                Update Schedule
+              </button>
+            </footer>
+          </form>
+        </section>
+      </div>
+    } @else {
+      <p class="loading">Initialize availability from the therapist dashboard first.</p>
+    }
+  </section>
+</div>

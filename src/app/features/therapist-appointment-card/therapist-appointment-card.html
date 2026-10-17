@@ -1,0 +1,17 @@
+<article class="appointment-card">
+  <div>
+    <h3>Nichols Gray</h3>
+    <p>{{ appointment().date }} · {{ appointment().time }} · {{ appointment().format }}</p>
+    <p>Focus area: {{ appointment().focusArea }}</p>
+  </div>
+  <div class="card-actions">
+    <a class="btn-outline" [routerLink]="['/therapist/session', appointment().id]">View Details</a>
+    @if (appointment().status === 'booked') {
+      <a class="btn-primary" [routerLink]="['/therapist/session', appointment().id]"
+        >Join Session</a
+      >
+    } @else {
+      <span>Cancelled</span>
+    }
+  </div>
+</article>

@@ -1,0 +1,106 @@
+.therapist-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: #142c3070;
+}
+.availability-dialog {
+  width: min(1050px, 100%);
+  max-height: 93vh;
+  background: white;
+  border-radius: 14px;
+  overflow: auto;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 26px;
+  border-bottom: 1px solid #dae4e6;
+  gap: 12px;
+}
+.modal-header h2 {
+  margin: 0;
+}
+.availability-columns {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+}
+.availability-sidebar {
+  padding: 22px;
+  border-right: 1px solid #dae4e6;
+  max-height: 72vh;
+  overflow: auto;
+}
+.week-total {
+  padding: 18px;
+  border-radius: 13px;
+  background: #f3f7f7;
+}
+.week-total p {
+  margin: 8px 0 0;
+  font-size: 21px;
+}
+.availability-editor {
+  padding: 26px;
+}
+.loading {
+  padding: 26px;
+}
+.day-form {
+  display: grid;
+  gap: 13px;
+}
+.day-form h3 {
+  margin: 14px 0 0;
+}
+.day-form label {
+  display: grid;
+  gap: 7px;
+}
+.day-form input {
+  border: 1px solid #cddde1;
+  border-radius: 10px;
+  padding: 11px;
+}
+.day-form .toggle-day {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.field-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.day-form footer {
+  display: flex;
+  justify-content: end;
+  padding-top: 16px;
+  gap: 10px;
+}
+.muted {
+  color: #66767a;
+  font-size: 14px;
+}
+@media (max-width: 800px) {
+  .availability-columns {
+    grid-template-columns: 1fr;
+  }
+  .availability-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #dae4e6;
+    max-height: 210px;
+  }
+  .availability-editor {
+    padding: 16px;
+  }
+}
+@media (max-width: 550px) {
+  .field-pair {
+    grid-template-columns: 1fr;
+  }
+}

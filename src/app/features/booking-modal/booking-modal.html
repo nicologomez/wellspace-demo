@@ -1,35 +1,44 @@
 <div class="modal-backdrop">
   <section class="modal-panel" role="dialog" aria-modal="true" aria-label="Book a session">
     <header class="modal-header">
-      <strong>Book with {{ therapist.name }}</strong>
+      <strong>Book with {{ viewProfile().name }}</strong>
       <a class="btn-outline" routerLink="/client">Close</a>
     </header>
+
+    <!-- [C in CRUD: FORM START] -->
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="modal-split">
         <div class="modal-left">
           <p class="eyebrow">OVERVIEW</p>
-          <h1>{{ therapist.name }}</h1>
-          <p>{{ therapist.credential }}</p>
+          <h1>{{ viewProfile().name }}</h1>
+          <p>{{ viewProfile().credential }}</p>
+          @if (viewProfile().title) {
+            <h3>{{ viewProfile().title }}</h3>
+          }
           <div class="overview-box">
-            <div class="profile-circle">{{ therapist.name[0] }}</div>
+            <div class="profile-circle">{{ viewProfile().name[0] }}</div>
             <p>Session length: <strong>45 mins</strong></p>
             <p>Location: Chicago, IL</p>
           </div>
           <h3>Specialties</h3>
-          <p>{{ therapist.focusAreas.join(' · ') }}</p>
+          <p>{{ viewProfile().focusAreas.join(' · ') }}</p>
           <hr />
-          <p>{{ therapist.about }}</p>
+          <p>{{ viewProfile().about }}</p>
         </div>
+
         <div class="modal-right">
+          <!-- 1. Format Choice -->
           <h3>Session format</h3>
           <div class="choice-grid">
-            @for (format of therapist.formats; track format) {
+            @for (format of viewProfile().formats; track format) {
               <label>
                 <input type="radio" formControlName="format" [value]="format" />
                 {{ format }}
               </label>
             }
           </div>
+
+          <!-- 2. Date Selection -->
           <h3>Select Date</h3>
           <div class="date-grid">
             @for (date of dates; track date) {
@@ -43,6 +52,8 @@
               </button>
             }
           </div>
+
+          <!-- 3. Available Times Selection -->
           <h3>Available Times</h3>
           <div class="time-grid">
             @for (time of availableTimes(); track time) {
@@ -57,13 +68,20 @@
               </p>
             }
           </div>
+
+          <!-- 4. Focus Area Selection -->
           <h3>Select Focus Area</h3>
           <select formControlName="focusArea">
             <option value="">Choose a focus area</option>
-            @for (area of focusAreas; track area) {
+            @for (area of viewProfile().focusAreas; track area) {
               <option [value]="area">{{ area }}</option>
             }
           </select>
+          @if (therapistId === 'ava' && !validOptions() && form.controls.focusArea.value) {
+            <p class="error" role="status">Choose an available format and focus area for Ava.</p>
+          }
+
+          <!-- 5. Optional Context Note -->
           <label class="context-label">
             Session context (optional)
             <textarea
@@ -72,19 +90,29 @@
               placeholder="Share anything that may help your therapist prepare."
             ></textarea>
           </label>
+
           @if (!therapist.bookable) {
             <p class="sample-notice">Sample therapist profile. Only Ava Smith accepts bookings.</p>
+          }
+          @if (therapistId === 'ava' && !avaProfile()) {
+            <p role="status">Waiting for Ava's profile to load.</p>
           }
         </div>
       </div>
 
+      <!-- Error Alert -->
       @if (error()) {
-        <p class="error" role="alert">{{ error() }}</p>
+        <p class="error" role="alert" style="padding: 0 24px">{{ error() }}</p>
       }
 
+      <!-- Submit Footer -->
       <footer class="modal-footer">
         <a routerLink="/client" class="btn-outline">Back</a>
-        <button class="btn-primary" type="submit" [disabled]="form.invalid || !therapist.bookable">
+        <button
+          class="btn-primary"
+          type="submit"
+          [disabled]="form.invalid || !canBook() || !validOptions()"
+        >
           Confirm Booking
         </button>
       </footer>

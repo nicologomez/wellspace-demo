@@ -1,0 +1,19 @@
+<div class="editor-overlay">
+  @if (!editId || original()) {
+    <form class="note-form" [formGroup]="form()" (ngSubmit)="save()">
+      <h2>{{ editId ? 'Edit shared note' : 'Create shared note' }}</h2>
+      <p>Visible to both Ava Smith and Nichols Gray.</p>
+      <label>Title <input formControlName="title" maxlength="120" /></label>
+      <label>Note <textarea formControlName="body" rows="7"></textarea></label>
+      @if (error()) {
+        <p role="alert" class="error">{{ error() }}</p>
+      }
+      <footer>
+        <a class="btn-outline" [routerLink]="['/therapist/session', sessionId]">Cancel</a>
+        <button class="btn-primary" type="submit" [disabled]="form().invalid">Save Note</button>
+      </footer>
+    </form>
+  } @else {
+    <p class="note-form">Loading your note...</p>
+  }
+</div>

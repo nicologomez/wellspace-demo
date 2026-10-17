@@ -9,5 +9,6 @@ import { Appointment } from '../../models/wellspace.model';
   styleUrl: './session-row.css',
 })
 export class SessionRow {
+  // [CRUD - R: READ] Receives each individual appointment document as a Signal Input
   appointment = input.required<Appointment>();
 }

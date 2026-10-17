@@ -1,0 +1,72 @@
+.call-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: #101d21ed;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.call-room {
+  width: min(1040px, 100%);
+  color: white;
+  background: #1c2d32;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.call-room header,
+.call-room footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.call-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+}
+.video-tile {
+  min-height: 310px;
+  background: #344950;
+  border-radius: 12px;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+.client-tile {
+  background: #395d60;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  margin: auto;
+  border-radius: 50%;
+  background: #0d8f92;
+  font-size: 32px;
+}
+.call-room button,
+.end-call {
+  border: 0;
+  border-radius: 20px;
+  background: #455e63;
+  color: white;
+  padding: 12px 19px;
+  text-decoration: none;
+}
+.end-call {
+  background: #bc4251;
+}
+@media (max-width: 600px) {
+  .call-stage {
+    grid-template-columns: 1fr;
+  }
+  .video-tile {
+    min-height: 190px;
+  }
+}

@@ -13,4 +13,5 @@ export class NoteCard {
   note = input.required<SharedNote>();
   viewerUid = input.required<string>();
   remove = output<string>();
+  routeBase = input('/client');
 }

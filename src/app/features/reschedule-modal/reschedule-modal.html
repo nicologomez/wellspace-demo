@@ -7,8 +7,10 @@
 
     @if (appointment(); as old) {
       <div class="modal-right">
+        <!-- [CRUD - U] Display existing Firestore values before editing -->
         <p>Current: {{ old.date }} · {{ old.time }} · {{ old.format }}</p>
 
+        <!-- 1. Select New Date -->
         <h3>Choose a new date</h3>
         <div class="date-grid">
           @for (day of dates; track day) {
@@ -23,53 +25,60 @@
           }
         </div>
 
+        <!-- 2. Select New Available Time -->
         <h3>Available times</h3>
         <div class="time-grid">
           @for (time of times(); track time) {
-            <label
-              ><input type="radio" [formControl]="timeControl" [value]="time" /> {{ time }}</label
-            >
+            <label>
+              <input type="radio" [formControl]="timeControl" [value]="time" /> {{ time }}
+            </label>
           } @empty {
             <p>Choose a day with open times.</p>
           }
         </div>
 
+        <!-- 3. Optional: Change Format -->
         <label
           >Session format
           <select [formControl]="formatControl">
             <option value="">Keep current ({{ old.format }})</option>
-            <option>Video</option>
-            <option>Call</option>
-            <option>In-Person</option>
+            @for (format of avaProfile()?.formats ?? []; track format) {
+              <option [value]="format">{{ format }}</option>
+            }
           </select>
         </label>
 
+        <!-- 4. Optional: Change Focus Area -->
         <label
           >Focus area
           <select [formControl]="focusControl">
             <option value="">Keep current ({{ old.focusArea }})</option>
-            @for (area of focusAreas; track area) {
+            @for (area of avaProfile()?.focusAreas ?? []; track area) {
               <option [value]="area">{{ area }}</option>
             }
           </select>
         </label>
 
+        <!-- 5. Optional: Change Context -->
         <label
           >New context (optional)
           <textarea [formControl]="contextControl" rows="3"></textarea>
         </label>
 
+        <!-- Error Notification -->
         @if (error()) {
           <p role="alert" class="error">{{ error() }}</p>
         }
       </div>
 
+      <!-- [CRUD - U] Submit Changes Back to Firestore -->
       <footer class="modal-footer">
         <a class="btn-outline" routerLink="/client">Back</a>
         <button
           class="btn-primary"
+          type="button"
           (click)="save()"
-          [disabled]="dateControl.invalid || timeControl.invalid"
+          [disabled]="dateControl.invalid || timeControl.invalid || !validOptions()"
         >
           Save Changes
         </button>

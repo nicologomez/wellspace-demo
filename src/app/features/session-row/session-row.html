@@ -1,3 +1,4 @@
+<!-- [CRUD - R: READ ROW ITEM] Displays appointment data from the Signal -->
 <article class="session-row">
   <div>
     <strong>Therapy with Ava Smith</strong>
@@ -6,9 +7,13 @@
       {{ appointment().focusArea }}
     </p>
   </div>
+
   <div class="session-actions">
+    <!-- View / Delete entry point: Passes appointment.id to the session modal -->
     <a class="btn-outline" [routerLink]="['/client/session', appointment().id]">View</a>
     <a class="btn-primary" [routerLink]="['/client/session', appointment().id]">Join Session</a>
+
+    <!-- [CRUD - U: UPDATE ENTRY POINT] Passes appointment.id to reschedule modal -->
     <a [routerLink]="['/client/reschedule', appointment().id]">Reschedule</a>
   </div>
 </article>

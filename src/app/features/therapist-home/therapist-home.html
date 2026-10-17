@@ -1,10 +1,74 @@
 <header class="site-header">
-  <strong>wellspace · Therapist</strong>
-  <button class="btn-outline" (click)="logout()">Sign out</button>
+  <div class="wellspace-brand"><span class="brand-mark">✳</span> wellspace</div>
+  <div class="header-right">
+    <span>Therapist · {{ account()?.displayName }}</span>
+    <button class="btn-outline" (click)="logout()">Sign out</button>
+  </div>
 </header>
-<main class="client-page">
-  <h1>Ava Smith</h1>
-  <p>Therapist dashboard will be built in guide 2.</p>
-  <button class="btn-primary" (click)="seedSchedule()">Initialize demo availability</button>
-  <p>{{ message() }}</p>
+<main class="therapist-page">
+  <section class="therapist-hero">
+    <p class="eyebrow">THERAPIST WORKSPACE</p>
+    <h1>Welcome back, Ava</h1>
+    <p>Manage your schedule, sessions, and shared notes.</p>
+  </section>
+  <section class="therapist-section">
+    <div class="section-heading">
+      <h2>My profile</h2>
+      <a routerLink="/therapist/profile" class="btn-outline">Edit Profile</a>
+    </div>
+    @if (profile() === null) {
+      <p>Loading your profile...</p>
+    } @else if (profile(); as ava) {
+      <h3>{{ ava.name }} · {{ ava.credential }}</h3>
+      <h4>{{ ava.title }}</h4>
+      <p class="profile-description">{{ ava.about }}</p>
+      <p><strong>Focus areas:</strong> {{ ava.focusAreas.join(', ') }}</p>
+      <p><strong>Session formats:</strong> {{ ava.formats.join(', ') }}</p>
+    } @else {
+      <p>Create your starting profile to begin.</p>
+      <button class="btn-primary" (click)="initializeProfile()">Initialize Ava Profile</button>
+    }
+    @if (message()) {
+      <p role="status">{{ message() }}</p>
+    }
+  </section>
+  <section class="therapist-section">
+    <div class="section-heading">
+      <h2>My availability</h2>
+      <a routerLink="/therapist/availability" class="btn-outline">Update Availability</a>
+    </div>
+    <p>Weekly work hours will appear here.</p>
+    @if (week() === undefined) {
+      <button class="btn-outline" (click)="seedSchedule()">Initialize weekly demo schedule</button>
+    }
+    @if (scheduleMessage()) {
+      <p role="status">{{ scheduleMessage() }}</p>
+    }
+  </section>
+  <section class="therapist-section">
+    <h2>Appointments</h2>
+    @if (appointments() === null) {
+      <p>Loading appointments...</p>
+    } @else {
+      <p>{{ upcoming().length }} upcoming sessions</p>
+      @for (session of upcoming(); track session.id) {
+        <app-therapist-appointment-card [appointment]="session" />
+      } @empty {
+        <p>No upcoming sessions with Nichols yet.</p>
+      }
+      @if (cancelled().length) {
+        <h3>Cancelled sessions</h3>
+        @for (session of cancelled(); track session.id) {
+          <app-therapist-appointment-card [appointment]="session" />
+        }
+      }
+    }
+  </section>
+  <section class="therapist-section">
+    <h2>Other clients (sample only)</h2>
+    <p>Jordan Lee · No interactive appointments</p>
+    <p>Riley Chen · No interactive appointments</p>
+    <button class="btn-outline" disabled>Open sample session</button>
+  </section>
 </main>
+<router-outlet />

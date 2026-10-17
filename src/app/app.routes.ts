@@ -9,6 +9,12 @@ import { SessionModal } from './features/session-modal/session-modal';
 import { NoteEditor } from './features/note-editor/note-editor';
 import { CallModal } from './features/call-modal/call-modal';
 
+import { TherapistProfileModal } from './features/therapist-profile-modal/therapist-profile-modal';
+import { TherapistAvailabilityModal } from './features/therapist-availability-modal/therapist-availability-modal';
+import { TherapistSessionModal } from './features/therapist-session-modal/therapist-session-modal';
+import { TherapistNoteEditor } from './features/therapist-note-editor/therapist-note-editor';
+import { TherapistCallModal } from './features/therapist-call-modal/therapist-call-modal';
+
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
@@ -30,6 +36,23 @@ export const routes: Routes = [
       { path: 'call/:id', component: CallModal },
     ],
   },
-  { path: 'therapist', component: TherapistHome, canActivate: [therapistGuard] },
+  {
+    path: 'therapist',
+    component: TherapistHome,
+    canActivate: [therapistGuard],
+    children: [
+      { path: 'profile', component: TherapistProfileModal },
+      { path: 'availability', component: TherapistAvailabilityModal },
+      {
+        path: 'session/:id',
+        component: TherapistSessionModal,
+        children: [
+          { path: 'note/new', component: TherapistNoteEditor },
+          { path: 'note/:noteId/edit', component: TherapistNoteEditor },
+        ],
+      },
+      { path: 'call/:id', component: TherapistCallModal },
+    ],
+  },
   { path: '**', redirectTo: 'login' },
 ];

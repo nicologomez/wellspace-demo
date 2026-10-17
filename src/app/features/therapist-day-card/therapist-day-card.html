@@ -1,0 +1,8 @@
+<button type="button" class="day-button" [class.active]="active()" (click)="choose.emit(name())">
+  <strong>{{ name() }}</strong>
+  <small>{{
+    schedule()?.enabled
+      ? schedule()?.start + '–' + schedule()?.end + ' · ' + schedule()?.slots + ' slots'
+      : 'Unavailable'
+  }}</small>
+</button>

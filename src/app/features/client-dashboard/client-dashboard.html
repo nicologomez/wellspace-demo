@@ -88,6 +88,12 @@
     @if (savedIds() === null) {
       <p>Loading saved therapists...</p>
     } @else {
+      @if (avaProfile() === null) {
+        <p class="loading-text">Loading Ava's current profile...</p>
+      } @else if (avaProfile() === undefined) {
+        <p class="error">Ava has not initialized her profile yet.</p>
+      }
+
       <div class="directory-grid">
         @for (therapist of therapists(); track therapist.id) {
           <app-therapist-card

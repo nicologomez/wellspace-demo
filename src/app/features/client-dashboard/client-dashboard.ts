@@ -2,14 +2,23 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet, Router, RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
+
+// Sentinels
 import { AuthSentinel } from '../../sentinels/auth.sentinel';
-import { TherapistCard } from '../therapist-card/therapist-card';
-import { SessionRow } from '../session-row/session-row';
-import { FOCUS_AREAS, THERAPISTS } from '../../data/demo-data';
-import { searchTherapists, SortBy } from '../../helpers/client.helpers';
 import { SavedSentinel } from '../../sentinels/saved.sentinel';
 import { BookingSentinel } from '../../sentinels/booking.sentinel';
+import { ProfileSentinel } from '../../sentinels/profile.sentinel';
+
+// UI Components
+import { TherapistCard } from '../therapist-card/therapist-card';
+import { SessionRow } from '../session-row/session-row';
+
+// Data Contracts & Helpers
+import { FOCUS_AREAS, THERAPISTS } from '../../data/demo-data';
+import { searchTherapists, SortBy } from '../../helpers/client.helpers';
 import { Appointment } from '../../models/wellspace.model';
+import { TherapistProfile } from '../../models/therapist-profile.model';
+import { directoryWithAva } from '../../helpers/profile.helpers';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -21,12 +30,16 @@ export class ClientDashboard {
   private auth = inject(AuthSentinel);
   private saved = inject(SavedSentinel);
   private booking = inject(BookingSentinel);
+  private profiles = inject(ProfileSentinel);
   private router = inject(Router);
 
   account = toSignal(this.auth.account$, { initialValue: null });
+
   savedIds = toSignal<string[] | null>(this.saved.list(this.auth.currentUid()), {
     initialValue: null,
   });
+
+  // [CRUD - R: READ] Live Appointment Streams & Signals
   bookings = toSignal<Appointment[] | null>(this.booking.forClient(this.auth.currentUid()), {
     initialValue: null,
   });
@@ -40,6 +53,12 @@ export class ClientDashboard {
   );
 
   cancelled = computed(() => (this.bookings() ?? []).filter((s) => s.status === 'cancelled'));
+
+  avaProfile = toSignal<TherapistProfile | null | undefined>(this.profiles.observe(), {
+    initialValue: null,
+  });
+
+  directory = computed(() => directoryWithAva(THERAPISTS, this.avaProfile() ?? undefined));
 
   focusAreas = FOCUS_AREAS;
   searchControl = new FormControl('', { nonNullable: true });
@@ -56,7 +75,7 @@ export class ClientDashboard {
 
   therapists = computed(() =>
     searchTherapists(
-      THERAPISTS,
+      this.directory(),
       this.search(),
       this.focus(),
       this.format(),

@@ -1,0 +1,68 @@
+<div class="therapist-overlay">
+  <section
+    class="profile-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Edit therapist profile"
+  >
+    <header class="modal-header">
+      <h2>Edit Therapist Profile</h2>
+      <a routerLink="/therapist" class="btn-outline">Close</a>
+    </header>
+    @if (profile(); as ava) {
+      <form class="profile-dialog-body" [formGroup]="form()" (ngSubmit)="save()">
+        <p>{{ ava.name }} · {{ ava.credential }}</p>
+        <label>
+          Introduction title
+          <input formControlName="title" maxlength="120" />
+        </label>
+        <label>
+          Description
+          <textarea formControlName="about" rows="7"></textarea>
+        </label>
+
+        <fieldset class="choice-fieldset">
+          <legend>Specialties / focus areas</legend>
+          <p>Choose at least one focus area.</p>
+          <div class="choice-grid">
+            @for (area of focusAreas; track area) {
+              <label class="choice-chip">
+                <input type="checkbox" [checked]="hasFocus(area)" (change)="toggleFocus(area)" />
+                {{ area }}
+              </label>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="choice-fieldset">
+          <legend>Available session formats</legend>
+          <p>Choose at least one format for future bookings.</p>
+          <div class="choice-grid">
+            @for (format of formats; track format) {
+              <label class="choice-chip">
+                <input
+                  type="checkbox"
+                  [checked]="hasFormat(format)"
+                  (change)="toggleFormat(format)"
+                />
+                {{ format }}
+              </label>
+            }
+          </div>
+        </fieldset>
+
+        @if (error()) {
+          <p class="error" role="alert">{{ error() }}</p>
+        }
+        <footer>
+          <a routerLink="/therapist" class="btn-outline">Cancel</a>
+          <button type="submit" class="btn-primary" [disabled]="form().invalid">
+            Save Profile
+          </button>
+        </footer>
+      </form>
+    } @else {
+      <p class="profile-dialog-body">Loading profile...</p>
+    }
+  </section>
+</div>

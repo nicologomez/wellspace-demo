@@ -14,22 +14,36 @@ import {
 } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
 import { Format, NewAppointment, Availability, Appointment } from '../models/wellspace.model';
+import { TherapistProfile } from '../models/therapist-profile.model';
 import { possibleTimes, slotId } from '../helpers/client.helpers';
+import { allowedChoice } from '../helpers/profile.helpers';
 
 @Injectable({ providedIn: 'root' })
 export class BookingSentinel {
+  // Inject the database connection
   private db = inject(Firestore);
 
+  // [CRUD - R: READ]
+  // READ (Nichols)- Streams all appointments belonging to this client
   forClient(uid: string): Observable<Appointment[]> {
     const q = query(collection(this.db, 'appointments'), where('clientId', '==', uid));
     return collectionData(q, { idField: 'id' }) as Observable<Appointment[]>;
   }
 
+  // READ (Ava)- Streams all appointments for the therapist dashboard
+  forTherapist(therapistId = 'ava'): Observable<Appointment[]> {
+    const q = query(collection(this.db, 'appointments'), where('therapistId', '==', therapistId));
+    return collectionData(q, { idField: 'id' }) as Observable<Appointment[]>;
+  }
+
+  // READ- Streams list of already-booked slot IDs
   lockedIds(): Observable<string[]> {
     return collectionData(collection(this.db, 'bookedSlots'), { idField: 'id' }).pipe(
       map((rows) => rows.map((row) => row['id'] as string)),
     );
   }
+
+  // READ ONE- Streams one specific appointment by its document ID
 
   byId(id: string): Observable<Appointment | undefined> {
     return docData(doc(this.db, 'appointments', id), { idField: 'id' }).pipe(
@@ -37,6 +51,7 @@ export class BookingSentinel {
     );
   }
 
+  // [CRUD - C: CREATE] Nichols books a new therapy session with Ava
   async create(input: {
     clientId: string;
     date: string;
@@ -49,15 +64,27 @@ export class BookingSentinel {
     const key = slotId(input.date, input.time);
     const lockRef = doc(this.db, 'bookedSlots', key);
     const scheduleRef = doc(this.db, 'availability', 'ava');
+    const profileRef = doc(this.db, 'therapists', 'ava');
 
     return runTransaction(this.db, async (tx) => {
       const schedule = await tx.get(scheduleRef);
       const occupied = await tx.get(lockRef);
+      const profile = await tx.get(profileRef);
 
       if (!schedule.exists()) throw Error('Ava has no schedule yet.');
-      if (!possibleTimes(input.date, schedule.data() as Availability).includes(input.time))
+      if (!profile.exists()) throw Error('Ava’s profile is unavailable.');
+
+      const ava = profile.data() as TherapistProfile;
+      if (!allowedChoice(ava, input.format, input.focusArea)) {
+        throw Error('Ava no longer offers that format or focus area.');
+      }
+
+      if (!possibleTimes(input.date, schedule.data() as Availability).includes(input.time)) {
         throw Error('That time is outside Ava’s availability.');
-      if (occupied.exists()) throw Error('This slot was already booked.');
+      }
+      if (occupied.exists()) {
+        throw Error('This slot was already booked.');
+      }
 
       const now = Date.now();
       const appointment: NewAppointment = {
@@ -80,6 +107,7 @@ export class BookingSentinel {
     });
   }
 
+  // [CRUD - U: UPDATE] Nichols reschedules a booked session
   async reschedule(
     id: string,
     uid: string,
@@ -91,17 +119,26 @@ export class BookingSentinel {
   ) {
     const appointmentRef = doc(this.db, 'appointments', id);
     const scheduleRef = doc(this.db, 'availability', 'ava');
+    const profileRef = doc(this.db, 'therapists', 'ava');
     const key = slotId(date, time);
 
     return runTransaction(this.db, async (tx) => {
       const existing = await tx.get(appointmentRef);
       const schedule = await tx.get(scheduleRef);
+      const profile = await tx.get(profileRef);
 
       if (!existing.exists() || !schedule.exists()) throw Error('Session or schedule missing.');
+      if (!profile.exists()) throw Error('Ava’s profile is unavailable.');
+
+      if (!allowedChoice(profile.data() as TherapistProfile, format, focusArea)) {
+        throw Error('Choose Ava’s currently offered format and focus area.');
+      }
+
       const old = existing.data() as Appointment;
       if (old.clientId !== uid || old.status !== 'booked') throw Error('Cannot reschedule.');
-      if (!possibleTimes(date, schedule.data() as Availability).includes(time))
+      if (!possibleTimes(date, schedule.data() as Availability).includes(time)) {
         throw Error('The new time is unavailable.');
+      }
 
       if (key !== old.slotKey) {
         const lockRef = doc(this.db, 'bookedSlots', key);
@@ -122,6 +159,8 @@ export class BookingSentinel {
     });
   }
 
+  // [CRUD - D: DELETE] Nichols cancels or deletes an appointment
+
   async cancel(id: string, uid: string) {
     const ref = doc(this.db, 'appointments', id);
     return runTransaction(this.db, async (tx) => {
@@ -141,8 +180,9 @@ export class BookingSentinel {
     if (!snapshot.exists()) throw Error('Session not found.');
     const appointment = snapshot.data() as Appointment;
 
-    if (appointment.clientId !== uid || appointment.status !== 'cancelled')
+    if (appointment.clientId !== uid || appointment.status !== 'cancelled') {
       throw Error('Cancel the session before deleting it.');
+    }
 
     const notes = await getDocs(
       query(collection(this.db, 'sharedNotes'), where('appointmentId', '==', id)),

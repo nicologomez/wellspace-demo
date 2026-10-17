@@ -12,6 +12,7 @@ export interface Therapist {
   id: string;
   name: string;
   credential: string;
+  title?: string;
   focusAreas: string[];
   formats: Format[];
   about: string;

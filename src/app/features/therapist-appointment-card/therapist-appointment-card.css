@@ -1,0 +1,34 @@
+.appointment-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 17px;
+  margin: 12px 0;
+  border: 1px solid #dce6e8;
+  border-radius: 12px;
+  background: #fff;
+}
+.appointment-card h3 {
+  margin: 0;
+}
+.appointment-card p {
+  margin: 6px 0;
+  color: #556b70;
+}
+.card-actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.card-actions a {
+  text-decoration: none;
+}
+@media (max-width: 650px) {
+  .appointment-card {
+    display: block;
+  }
+  .card-actions {
+    margin-top: 12px;
+  }
+}

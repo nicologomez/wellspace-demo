@@ -1,0 +1,84 @@
+.therapist-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: #152c306d;
+}
+.profile-dialog {
+  background: white;
+  width: min(820px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  border: 1px solid #dce6e8;
+  border-radius: 15px;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #dce6e8;
+  gap: 12px;
+}
+.modal-header h2 {
+  margin: 0;
+}
+.profile-dialog-body {
+  padding: 24px;
+  display: grid;
+  gap: 14px;
+}
+.profile-dialog-body label {
+  display: grid;
+  gap: 7px;
+  font-weight: 600;
+}
+.profile-dialog-body input,
+.profile-dialog-body textarea {
+  width: 100%;
+  border: 1px solid #ccdce0;
+  border-radius: 10px;
+  padding: 12px;
+}
+.profile-dialog-body footer {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}
+@media (max-width: 600px) {
+  .modal-header,
+  .profile-dialog-body {
+    padding: 16px;
+  }
+}
+
+.choice-fieldset {
+  border: 1px solid #dce6e8;
+  border-radius: 12px;
+  padding: 16px;
+}
+.choice-fieldset legend {
+  font-weight: 700;
+  padding: 0 6px;
+}
+.choice-fieldset p {
+  color: #5c6c70;
+  margin: 5px 0 12px;
+}
+.choice-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.choice-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #d7e3e5;
+  border-radius: 18px;
+  padding: 8px 11px;
+  cursor: pointer;
+}

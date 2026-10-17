@@ -96,3 +96,45 @@ button:disabled {
     gap: 7px;
   }
 }
+
+:focus-visible {
+  outline: 3px solid #009c9e;
+  outline-offset: 3px;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+[role='dialog'] {
+  max-width: 100%;
+}
+@media (max-width: 780px) {
+  .client-page {
+    padding: 16px;
+  }
+  .site-header {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .directory-grid {
+    grid-template-columns: 1fr;
+  }
+  .modal-split,
+  .session-columns {
+    grid-template-columns: 1fr;
+  }
+  .modal-left,
+  .session-overview {
+    border-right: 0;
+  }
+  .session-row,
+  .appointment-card {
+    flex-wrap: wrap;
+  }
+}

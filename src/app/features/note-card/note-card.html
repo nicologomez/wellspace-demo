@@ -3,7 +3,7 @@
     <h3>{{ note().title }}</h3>
     @if (note().authorId === viewerUid()) {
       <a
-        [routerLink]="['/client/session', note().appointmentId, 'note', note().id, 'edit']"
+        [routerLink]="[routeBase(), 'session', note().appointmentId, 'note', note().id, 'edit']"
         title="Edit note"
         >✎ Edit</a
       >

@@ -47,17 +47,26 @@
         </section>
       </div>
 
+      <!-- Feedback / Error Message -->
       @if (message()) {
         <p class="error" role="alert" style="padding: 0 24px">{{ message() }}</p>
       }
 
+      <!-- [CRUD - D] Action Footer -->
       <footer class="modal-footer">
         <a routerLink="/client" class="btn-outline">Close</a>
+
+        <!-- If session is booked: Allow Joining or Cancelling -->
         @if (session.status === 'booked') {
           <a class="btn-primary" [routerLink]="['/client/call', id]">Join Session</a>
-          <button class="btn-outline" (click)="cancelSession()">Cancel Session</button>
+          <button class="btn-outline" type="button" (click)="cancelSession()">
+            Cancel Session
+          </button>
         } @else {
-          <button class="btn-outline" (click)="deleteSession()">Delete Appointment</button>
+          <!-- If session is cancelled: Allow Permanent Deletion -->
+          <button class="btn-outline" type="button" (click)="deleteSession()">
+            Delete Appointment
+          </button>
         }
       </footer>
     } @else {

@@ -1,0 +1,65 @@
+<div class="therapist-session-backdrop">
+  <section
+    class="therapist-session-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Session with Nichols"
+  >
+    <header class="modal-header">
+      <strong>Session with Nichols Gray</strong>
+      <a routerLink="/therapist" class="btn-outline">Close</a>
+    </header>
+    @if (appointment(); as session) {
+      <div class="session-columns">
+        <section class="session-overview">
+          <p class="eyebrow">OVERVIEW</p>
+          <h1>Nichols Gray</h1>
+          <p>Client of {{ profile()?.name ?? 'Ava Smith' }}</p>
+          <div class="overview-box">
+            <p><strong>Session ID:</strong> {{ session.id }}</p>
+            <p><strong>Scheduled:</strong> {{ session.date }} · {{ session.time }}</p>
+            <p><strong>Format:</strong> {{ session.format }}</p>
+            <p><strong>Focus Area:</strong> {{ session.focusArea }}</p>
+            <p><strong>Status:</strong> {{ session.status }}</p>
+          </div>
+          <h3>Session context</h3>
+          <p>{{ session.context || 'No context provided.' }}</p>
+        </section>
+        <section class="session-notes">
+          <div class="notes-heading">
+            <div>
+              <h2>Shared Notes</h2>
+              <p>Visible to Nichols Gray and Ava Smith</p>
+            </div>
+            <a class="btn-outline" [routerLink]="['/therapist/session', id, 'note', 'new']">
+              + Create Note
+            </a>
+          </div>
+          @if (sharedNotes() === null) {
+            <p>Loading notes...</p>
+          } @else {
+            @for (note of sharedNotes() ?? []; track note.id) {
+              <app-note-card
+                [note]="note"
+                [viewerUid]="currentUid"
+                routeBase="/therapist"
+                (remove)="removeNote($event)"
+              />
+            } @empty {
+              <p>No shared notes for this session yet.</p>
+            }
+          }
+        </section>
+      </div>
+      <footer class="modal-footer">
+        <a routerLink="/therapist" class="btn-outline">Back</a>
+        @if (session.status === 'booked') {
+          <a class="btn-primary" [routerLink]="['/therapist/call', id]">Join Session</a>
+        }
+      </footer>
+    } @else {
+      <p class="loading">Loading session details...</p>
+    }
+    <router-outlet />
+  </section>
+</div>

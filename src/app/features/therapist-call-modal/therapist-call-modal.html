@@ -1,0 +1,24 @@
+<div class="call-backdrop">
+  <section class="call-room" role="dialog" aria-modal="true">
+    <header>
+      <strong>wellspace · Session with Nichols Gray</strong> <span>Visual demo call</span>
+    </header>
+    <div class="call-stage">
+      <div class="video-tile">
+        <div class="avatar">AS</div>
+        <p>Ava Smith · {{ camera() ? 'Camera on (demo)' : 'Camera off' }}</p>
+      </div>
+      <div class="video-tile client-tile">
+        <div class="avatar">NG</div>
+        <p>Nichols Gray · Client</p>
+      </div>
+    </div>
+    <footer>
+      <button type="button" (click)="toggleMic()">{{ mic() ? 'Mute' : 'Unmute' }} (demo)</button>
+      <button type="button" (click)="toggleCamera()">
+        {{ camera() ? 'Stop Video' : 'Start Video' }} (demo)
+      </button>
+      <a class="end-call" [routerLink]="['/therapist/session', id]">End Call</a>
+    </footer>
+  </section>
+</div>

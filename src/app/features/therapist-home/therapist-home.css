@@ -1,0 +1,74 @@
+.therapist-page {
+  max-width: 1190px;
+  margin: auto;
+  padding: 26px 30px 60px;
+}
+.therapist-hero {
+  padding: 36px;
+  background: linear-gradient(115deg, #ecfafa, #f3f3ff);
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+.therapist-hero h1 {
+  font:
+    400 clamp(28px, 3vw, 40px) Georgia,
+    serif;
+  margin: 10px 0;
+}
+.therapist-section {
+  background: white;
+  padding: 24px;
+  margin: 18px 0;
+  border: 1px solid #dce6e8;
+  border-radius: 16px;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.section-heading a {
+  text-decoration: none;
+}
+.profile-description {
+  white-space: pre-line;
+  line-height: 1.6;
+  color: #536267;
+}
+@media (max-width: 650px) {
+  .therapist-page {
+    padding: 14px;
+  }
+  .therapist-section {
+    padding: 16px;
+  }
+  .section-heading {
+    flex-wrap: wrap;
+  }
+}
+
+.therapist-section h2 {
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+.therapist-section h3 {
+  color: #203c40;
+}
+.therapist-section .btn-outline,
+.therapist-section .btn-primary {
+  display: inline-block;
+  text-decoration: none;
+}
+.site-header {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+@media (max-width: 650px) {
+  .therapist-hero {
+    padding: 24px;
+  }
+  .therapist-hero h1 {
+    font-size: 29px;
+  }
+}
